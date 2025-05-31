@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-use Illuminate\View\View; // <--- TAMBAHKAN BARIS INI
+use Illuminate\View\View;
 
 class LandingPageController extends Controller
 {

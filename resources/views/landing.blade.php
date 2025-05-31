@@ -2,26 +2,19 @@
 
 @section('content')
 
-{{-- BEGIN: Custom Navigation Bar for Landing Page (sesuai gambar) --}}
-{{-- Anda mungkin perlu memindahkan ini ke layout khusus landing page atau mengkondisikan navbar di layout utama --}}
 <nav style="background-color: #fff; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; display: flex; justify-content: space-between; align-items: center;">
     <div class="logo">
-        {{-- Ganti dengan logo Anda jika ada, atau gunakan teks --}}
         <a href="{{ route('landing.page') }}" style="font-size: 1.5rem; font-weight: 700; color: #023047; text-decoration: none;">
             CookLab
         </a>
-        {{-- Jika menggunakan gambar logo dari layout sebelumnya: --}}
-        {{-- <a href="{{ route('landing.page') }}">
-            <x-application-logo style="display: block; height: 2.25rem; width: auto; fill: currentColor;" class="text-gray-800" />
-        </a> --}}
     </div>
     <div class="nav-links" style="display: flex; gap: 1.5rem;">
-        <a href="#" style="color: #023047; text-decoration: none; font-weight: 500;">Home</a>
+        <a href="dashboard" style="color: #023047; text-decoration: none; font-weight: 500;">Dashboard</a>
         <a href="#" style="color: #023047; text-decoration: none; font-weight: 500;">About Us</a>
         @guest
-            <a href="{{ route('login') }}" style="color: #023047; text-decoration: none; font-weight: 500;">Login</a>
-            <span style="color: #023047;">/</span>
-            <a href="{{ route('register') }}" style="color: #023047; text-decoration: none; font-weight: 500;">Sign up</a>
+            <a href="{{ route('login') }}" style="color: #16666B; text-decoration: none; font-weight: 500;">Login</a>
+            
+            <a href="{{ route('register') }}" style="color: #16666B; text-decoration: none; font-weight: 500;">Sign up</a>
         @else
              <a href="{{ route('dashboard') }}" style="color: #023047; text-decoration: none; font-weight: 500;">Dashboard</a>
              <a href="{{ route('logout') }}"
@@ -39,12 +32,12 @@
 
 
 {{-- Hero Section --}}
-<section style="position: relative; padding: 5rem 2rem; background-color: #f8f9fa; /* Warna background sedikit lebih soft dari putih polos */ font-family: 'Poppins', sans-serif; overflow: hidden; text-align: left;">
+<section style="position: relative; padding: 5rem 2rem; background-color: #f8f9fa; font-family: 'Poppins', sans-serif; overflow: hidden; text-align: left;">
   <img src="{{ asset('images/bakery-bg.jpeg') }}" alt="Background with bakery theme"
-       style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.1; /* Opacity lebih rendah agar teks lebih jelas */ z-index: 0;">
+       style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; /* Opacity diubah menjadi 20% */ z-index: 0;">
   
-  <div style="position: relative; max-width: 650px; /* Sedikit lebih kecil agar pas dengan contoh */ margin-left: 5%; /* Memberi jarak dari kiri, sesuaikan jika perlu */ z-index: 1;">
-    <h1 style="font-size: 2.7rem; /* Sedikit disesuaikan */ font-weight: 700; color: #023047; /* Warna teks utama lebih gelap */ margin-bottom: 1.5rem; line-height: 1.3;">
+  <div style="position: relative; max-width: 650px; margin-left: 5%; z-index: 1;">
+    <h1 style="font-size: 2.7rem; font-weight: 700; color: #023047; margin-bottom: 1.5rem; line-height: 1.3;">
       Discover, Experiment, and <br>Enjoy Countless Recipes at 
       <span style="color: #219ebc;">CookLab</span>
     </h1>
@@ -66,11 +59,10 @@
 </section>
 
 {{-- Features Section ("What We Offer") --}}
-{{-- Warna background dari gambar: #e0f2f7 (biru muda kehijauan) atau gunakan #88C3C6 jika sudah sesuai --}}
-<section style="background-color: #e0f2f7; padding: 4rem 2rem; font-family: 'Poppins', sans-serif;">
-  <h2 style="font-size: 2.2rem; font-weight: 700; text-align: center; color: #023047; /* Warna judul lebih gelap */ margin-bottom: 2rem;">What We Offer</h2>
+<section style="background-color: #88C3C6; /* Warna background diubah kembali */ padding: 4rem 2rem; font-family: 'Poppins', sans-serif;">
+  <h2 style="font-size: 2.2rem; font-weight: 700; text-align: center; color: #000; /* Warna judul kembali ke original #000 untuk kontras dengan #88C3C6 */ margin-bottom: 2rem;">What We Offer</h2>
 
-  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 2.5rem; /* Sedikit lebih besar gap antar card */">
+  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 2.5rem;">
     @php
       $features = [
         ['img' => 'recipe-icon.png', 'alt' => 'Recipes Icon', 'text' => 'Thousands of <br>Recipes'],
@@ -80,31 +72,27 @@
     @endphp
 
     @foreach($features as $feature)
-      <div style="background: #ffffff; border-radius: 1rem; padding: 2rem 1.5rem; width: 260px; /* Sedikit lebih lebar */ text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.08); transition: transform 0.3s;"
+      <div style="background: #ffffff; border-radius: 1rem; padding: 2rem 1.5rem; width: 260px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.08); transition: transform 0.3s;"
            onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.12)';" 
            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.08)';">
-        <img src="{{ asset('images/' . $feature['img']) }}" alt="{{ $feature['alt'] }}" style="width: 55px; /* Sedikit lebih kecil ikonnya */ margin: 0 auto 1.5rem;">
-        <h4 style="color: #023047; font-size: 1.1rem; font-weight: 600; line-height: 1.4;">{!! $feature['text'] !!}</h4>
+        <img src="{{ asset('images/' . $feature['img']) }}" alt="{{ $feature['alt'] }}" style="width: 55px; margin: 0 auto 1.5rem;">
+        {{-- Warna teks card #003049 dari kode originalmu, sepertinya kontrasnya baik --}}
+        <h4 style="color: #003049; font-size: 1.1rem; font-weight: 600; line-height: 1.4;">{!! $feature['text'] !!}</h4>
       </div>
     @endforeach
   </div>
-  {{-- Paragraf tambahan seperti di gambar --}}
-  <p style="text-align: center; max-width: 600px; margin: 3rem auto 0; color: #023047; font-size: 0.95rem; line-height: 1.6;">
+  <p style="text-align: center; max-width: 600px; margin: 3rem auto 0; color: #023047; /* Atau #000 agar senada dengan judul section */ font-size: 0.95rem; line-height: 1.6;">
       These are just a few of the awesome things CookLab has to offer. Whether you're a beginner or a kitchen pro, there's always something new to try, learn, and enjoy.
   </p>
 </section>
 
-{{-- Spacer tidak lagi menggunakan div, tapi dengan margin/padding antar section --}}
-{{-- <div class="bg-white h-12 w-full"></div> --}} 
-
 {{-- Footer Section --}}
-{{-- Warna background dari gambar: #004369 (biru tua) atau gunakan #70B9BE jika lebih sesuai dengan tema Anda --}}
-<footer style="background-color: #004369; font-family: 'Poppins', sans-serif; padding: 4rem 2rem 2rem; /* Padding bawah dikurangi sedikit */ color: #e0f7fa; /* Warna teks lebih soft white */"> 
-  <div style="max-width: 1100px; /* Max width disesuaikan */ margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Membuatnya lebih responsif */ gap: 2.5rem; align-items: start;">
+<footer style="background-color: #70B9BE; /* Warna background diubah kembali */ font-family: 'Poppins', sans-serif; padding: 4rem 2rem 2rem; color: white; /* Warna teks utama di footer jadi putih */"> 
+  <div style="max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; align-items: start;">
     
     {{-- About --}}
     <div style="text-align: left;">
-      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff;">About CookLab</h4>
+      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: white;">About CookLab</h4>
       <p style="line-height: 1.7; font-size: 0.9rem;">
         CookLab is a modern recipe platform made for everyone who loves to cook, explore, and share. 
         We aim to make cooking simple, inspiring, and accessible for all skill levels. 
@@ -113,29 +101,29 @@
     </div>
 
     {{-- Terms & Contact --}}
-    <div style="text-align: left; "> {{-- Menghapus padding-left agar lebih seimbang dengan grid --}}
-      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff;">Terms & Privacy</h4>
+    <div style="text-align: left;">
+      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: white;">Terms & Privacy</h4>
       <ul style="list-style: none; padding: 0; margin: 0 0 1.5rem;">
         <li style="margin-bottom: 0.5rem;">
-          <a href="#" style="color: #e0f7fa; text-decoration: none; font-size: 0.9rem; hover: {text-decoration: underline;}">Terms of Service</a>
+          <a href="#" style="color: white; text-decoration: none; font-size: 0.9rem; hover: {text-decoration: underline;}">Terms of Service</a>
         </li>
         <li>
-          <a href="#" style="color: #e0f7fa; text-decoration: none; font-size: 0.9rem; hover: {text-decoration: underline;}">Privacy Policy</a>
+          <a href="#" style="color: white; text-decoration: none; font-size: 0.9rem; hover: {text-decoration: underline;}">Privacy Policy</a>
         </li>
       </ul>
 
-      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff;">Contact Us</h4>
+      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: white;">Contact Us</h4>
       <p style="display: flex; align-items: center; gap: 0.7rem; font-size: 0.9rem; margin-bottom: 0.5rem;">
-        <img src="{{ asset('images/email.png') }}" style="width: 16px; filter: brightness(0) invert(1);"> {{-- Invert warna ikon jika ikonnya gelap --}} cookLab@gmail.com
+        <img src="{{ asset('images/email.png') }}" style="width: 16px; filter: brightness(0) invert(1);"> cookLab@gmail.com
       </p>
       <p style="display: flex; align-items: center; gap: 0.7rem; font-size: 0.9rem;">
-        <img src="{{ asset('images/phone.png') }}" style="width: 16px; filter: brightness(0) invert(1);"> {{-- Invert warna ikon jika ikonnya gelap --}} +62 8775434455
+        <img src="{{ asset('images/phone.png') }}" style="width: 16px; filter: brightness(0) invert(1);"> +62 8775434455
       </p>
     </div>
 
     {{-- Social Media --}}
-    <div style="text-align: left;"> {{-- Menghapus padding-left agar lebih seimbang dengan grid --}}
-      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff;">Follow Us</h4>
+    <div style="text-align: left;">
+      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: white;">Follow Us</h4>
       <div style="display: flex; flex-direction: column; gap: 0.8rem;">
         <div style="display: flex; align-items: center; gap: 0.7rem;">
           <img src="{{ asset('images/ig.png') }}" style="width: 20px; filter: brightness(0) invert(1);"> 
@@ -154,7 +142,7 @@
   </div>
 
   {{-- Bottom line --}}
-  <div style="text-align: center; margin-top: 3.5rem; font-size: 0.8rem; opacity: 0.7; border-top: 1px solid rgba(224, 247, 250, 0.3); padding-top: 1.5rem;">
+  <div style="text-align: center; margin-top: 3.5rem; font-size: 0.8rem; opacity: 0.7; border-top: 1px solid rgba(255,255,255,0.3); /* Warna border disesuaikan agar kontras dengan #70B9BE */ padding-top: 1.5rem;">
     &copy; {{ date('Y') }} CookLab. All rights reserved.
   </div>
 </footer>
