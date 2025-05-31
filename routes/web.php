@@ -1,15 +1,17 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\LandingPageController; // Pastikan ini di-import
+use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landing.page');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Rute untuk Dashboard (Memerlukan login dan email terverifikasi)
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    $categories = [ /* ... data dummy seperti contoh sebelumnya ... */ ];
+    return view('dashboard', ['categories' => $categories]);
+})->name('dashboard'); 
 
 // Grup rute yang memerlukan autentikasi (login)
 Route::middleware('auth')->group(function () {
