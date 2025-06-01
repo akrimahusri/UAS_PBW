@@ -45,8 +45,8 @@
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a href="{{ route('recipes.my') }}"
-                       class="flex items-center py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-md {{ request()->routeIs('recipes.my') ? 'bg-gray-200 text-gray-900 font-medium' : '' }}">
+                    <a href="{{ route('my-recipes') }}"
+                       class="flex items-center py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-md {{ request()->routeIs('my-recipes') ? 'bg-gray-200 text-gray-900 font-medium' : '' }}">
                         My Recipes
                     </a>
                 </li>
