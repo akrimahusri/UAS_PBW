@@ -1,8 +1,15 @@
 @extends('layouts.app') {{-- Menggunakan layout utama aplikasi --}}
 
 @section('content')
-<div class="py-8"> {{-- Padding atas dan bawah untuk seluruh konten dashboard --}}
+<div class="py-8">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+        {{-- HAPUS TOMBOL INI DARI SINI --}}
+        {{-- <div class="mb-4 flex justify-start">
+            <button @click="sidebarOpen = !sidebarOpen" class="inline-flex items-center px-4 py-2 bg-gray-800 ...">
+                Navigation
+            </button>
+        </div> --}}
 
         {{-- Baris untuk Tabs (All, Popular) dan Filter/Sort --}}
         <div class="flex justify-between items-center mb-6">
@@ -43,29 +50,28 @@
                     'name' => 'Simple Breakfast',
                     'recipes' => [
                         [
-                            'image' => asset('images/placeholder/waffles.jpg'), // Ganti dengan path gambar yang benar
+                            'image' => asset('images/placeholder/waffles.jpg'),
                             'title' => 'Waffles',
                             'description' => 'A recipe that\'s great to eat in the morning',
                             'rating' => 5
                         ],
                         [
-                            'image' => asset('images/placeholder/pancakes.jpg'), // Ganti dengan path gambar yang benar
+                            'image' => asset('images/placeholder/pancakes.jpg'),
                             'title' => 'Pancakes',
                             'description' => 'A recipe that\'s great to eat in the morning',
                             'rating' => 4
                         ],
                         [
-                            'image' => asset('images/placeholder/chocolate.jpg'), // Ganti dengan path gambar yang benar
+                            'image' => asset('images/placeholder/chocolate.jpg'),
                             'title' => 'Hot Chocolate',
                             'description' => 'A recipe that\'s great to eat in the morning',
                             'rating' => 5
                         ],
                     ]
                 ],
-                // Tambahkan kategori lain jika ada, misalnya "Simple Lunch", "Simple Dinner"
-                // Untuk mengulang section seperti di gambar, duplikasi array kategori ini
+                // ... (kategori lainnya seperti yang sudah ada di file Anda)
                  [
-                    'name' => 'Simple Lunch', // Contoh kategori kedua
+                    'name' => 'Simple Lunch',
                     'recipes' => [
                          [
                             'image' => asset('images/placeholder/waffles.jpg'),
@@ -88,7 +94,7 @@
                     ]
                 ],
                  [
-                    'name' => 'Simple Dinner', // Contoh kategori ketiga
+                    'name' => 'Simple Dinner',
                     'recipes' => [
                          [
                             'image' => asset('images/placeholder/waffles.jpg'),
@@ -122,11 +128,11 @@
                     @foreach ($category['recipes'] as $recipe)
                         <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col" style="font-family: 'Poppins', sans-serif;">
                             {{-- Bagian Gambar --}}
-                            <div class="w-full h-48 bg-gray-700"> {{-- Warna background untuk placeholder jika gambar tidak ada --}}
+                            <div class="w-full h-48 bg-gray-700">
                                 <img src="{{ $recipe['image'] }}" alt="{{ $recipe['title'] }}" class="w-full h-full object-cover">
                             </div>
                             {{-- Bagian Konten Teks --}}
-                            <div class="p-6 flex flex-col flex-grow" style="background-color: #9BCFD2;"> {{-- Warna background biru muda seperti di gambar --}}
+                            <div class="p-6 flex flex-col flex-grow" style="background-color: #9BCFD2;">
                                 <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $recipe['title'] }}</h3>
                                 <p class="text-gray-700 text-sm mb-3 flex-grow">{{ $recipe['description'] }}</p>
                                 
@@ -139,7 +145,7 @@
                                     @endfor
                                 </div>
 
-                                <a href="#" class="mt-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2" style="background-color: #16666B; /* Warna tombol hijau kebiruan */">
+                                <a href="#" class="mt-auto inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2" style="background-color: #16666B;">
                                     View Details
                                     <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />

@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+    {{-- ... head content Anda ... --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="font-sans antialiased">
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900" x-data="{ sidebarOpen: true }"> {{-- Default sidebar terbuka --}}
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <div class="flex h-screen">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-        <link rel="icon" type="image/png" href="{{ asset('image.png') }}">
+            {{-- Komponen Sidebar --}}
+            @auth
+                {{-- Sidebar akan selalu ada di DOM jika user login, visibilitas & transisi diatur Alpine & CSS --}}
+                <div x-show="sidebarOpen"
+                     x-transition:enter="transition ease-in-out duration-300"
+                     x-transition:enter-start="-translate-x-full"
+                     x-transition:enter-end="translate-x-0"
+                     x-transition:leave="transition ease-in-out duration-300"
+                     x-transition:leave-start="translate-x-0"
+                     x-transition:leave-end="-translate-x-full"
+                     class="w-72 bg-[#70B9BE] shadow-md z-10 flex-shrink-0">
+                    <x-sidebar />
+                </div>
+            @endauth
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-full bg-gray-100 dark:bg-gray-900 overflow-y-auto">
+            {{-- Kontainer untuk Navigasi Atas dan Konten Utama --}}
+            <div class="flex-1 flex flex-col overflow-hidden">
+                {{-- Navigasi Atas (termasuk tombol hamburger untuk toggle sidebar) --}}
+                @include('layouts.navigation')
 
-
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main class="py-12 px-4 min-h-screen">
-                @yield('content')
-            </main>
+                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+                    @if (isset($slot))
+                        {{ $slot }}
+                    @else
+                        @yield('content')
+                    @endif
+                </main>
+            </div>
         </div>
-    </body>
+    </div>
+</body>
 </html>
