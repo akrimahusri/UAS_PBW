@@ -16,7 +16,7 @@
             
             <a href="{{ route('register') }}" style="color: #16666B; text-decoration: none; font-weight: 500;">Sign up</a>
         @else
-             <a href="{{ route('dashboard') }}" style="color: #023047; text-decoration: none; font-weight: 500;">Dashboard</a>
+        
              <a href="{{ route('logout') }}"
                 onclick="event.preventDefault(); document.getElementById('logout-form-nav').submit();"
                 style="color: #023047; text-decoration: none; font-weight: 500;">

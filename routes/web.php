@@ -15,6 +15,11 @@ Route::get('/my-recipes', [RecipeController::class, 'index'])->name('my-recipes'
 // Rute untuk menampilkan form tambah resep baru
 Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create')->middleware('auth');
 
+Route::get('/recipes/{recipe}', [RecipeController::class, 'show'])->name('recipes.show'); // Read Detail
+Route::get('/recipes/{recipe}/edit', [RecipeController::class, 'edit'])->name('recipes.edit'); // Form Edit
+Route::put('/recipes/{recipe}', [RecipeController::class, 'update'])->name('recipes.update'); // Proses Update
+Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy'])->name('recipes.destroy'); // Proses Delete
+
 // Rute untuk menampilkan detail satu resep
 Route::get('/recipes/{recipe}', [RecipeController::class, 'show'])->name('recipes.show'); 
 
