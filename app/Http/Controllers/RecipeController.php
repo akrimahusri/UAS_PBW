@@ -104,7 +104,7 @@ class RecipeController extends Controller
         // $recipe->load('user', 'reviews'); // Asumsi ada relasi 'reviews' di model Recipe
 
         // Pastikan Anda memiliki view 'recipes.show.blade.php'
-        return view('user.my-recipes', ['recipes' => $recipes]);
+        return view('recipes.show', ['recipe' => $recipe]);
     }
 
     // Anda bisa menambahkan method lain di sini seperti edit(), update(), destroy() nantinya.
