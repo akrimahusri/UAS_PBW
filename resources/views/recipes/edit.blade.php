@@ -28,7 +28,6 @@
             @foreach(is_array($recipe->ingredients) ? $recipe->ingredients : (json_decode($recipe->ingredients, true) ?? []) as $key => $ingredient)
                 <input type="hidden" name="ingredients[{{ $key }}]" value="{{ $ingredient }}">
             @endforeach
-            <small class="text-gray-600">Saat submit, ini akan dikonversi jadi array. Untuk edit, edit di textarea.</small>
             @error('ingredients') <p class="text-red-500 text-xs italic">{{ $message }}</p> @enderror
              @error('ingredients.*') <p class="text-red-500 text-xs italic">{{ $message }}</p> @enderror
         </div>

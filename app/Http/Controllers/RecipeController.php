@@ -11,13 +11,10 @@ use Illuminate\Http\RedirectResponse; // Untuk type hinting redirect
 
 class RecipeController extends Controller
 {
-    /**
-     * Display a listing of the user's recipes.
-     * Method ini untuk halaman "My Recipe".
-     */
+    
     public function index(): View
     {
-        $recipes = Auth::user()->recipes()->latest()->get();
+        $recipes = Auth::user()->recipes()->withCount(['likedByUsers', 'savedByUsers'])->latest()->get();
         return view('user.my-recipes', ['recipes' => $recipes]);
     }
 
@@ -42,6 +39,8 @@ class RecipeController extends Controller
             'direction' => 'required|string',
             'cooking_duration_value' => 'nullable|numeric|min:0',
             'cooking_duration_unit' => 'nullable|string|max:50',
+            'categories' => 'nullable|array', 
+            'categories.*' => 'nullable|string',
             'file_upload' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -57,6 +56,7 @@ class RecipeController extends Controller
             'ingredients' => $validatedData['ingredients'],
             'directions' => $validatedData['direction'],
             'image_path' => $imagePath,
+            'categories' => $validatedData['categories'] ?? null,
         ];
 
         if (!empty($validatedData['cooking_duration_value']) && !empty($validatedData['cooking_duration_unit'])) {
@@ -70,19 +70,28 @@ class RecipeController extends Controller
         return redirect()->route('my-recipes')->with('success', 'Recipe created successfully!');
     }
 
-    /**
-     * Display the specified recipe. (READ DETAIL)
-     * Route Model Binding: Laravel akan otomatis mencari Recipe berdasarkan ID di URL.
-     */
-    public function show(Recipe $recipe): View
+
+   public function show(Recipe $recipe): View
     {
-        // Anda bisa memuat relasi jika perlu, contoh:
-        // $recipe->load('user'); // Memuat data user pembuat resep
-        return view('recipes.show', ['recipe' => $recipe]);
+        $recipe->load(['user', 'reviews' => function ($query) {
+            $query->with('user')->latest(); // Muat user dari review, urutkan review terbaru
+        }]);
+        $isLiked = Auth::check() ? Auth::user()->likedRecipes->contains($recipe->id) : false;
+        $isSaved = Auth::check() ? Auth::user()->savedRecipes->contains($recipe->id) : false;
+        $likeCount = $recipe->likedByUsers()->count();
+        $saveCount = $recipe->savedByUsers()->count();
+
+        return view('recipes.show', [
+            'recipe' => $recipe,
+            'isLiked' => $isLiked,
+            'isSaved' => $isSaved,
+            'likeCount' => $likeCount,
+            'saveCount' => $saveCount,
+        ]);
     }
 
     /**
-     * Show the form for editing the specified recipe. (Form UPDATE)
+     *  (Form UPDATE)
      */
     public function edit(Recipe $recipe): View
     {
@@ -112,6 +121,8 @@ class RecipeController extends Controller
             'direction' => 'required|string',
             'cooking_duration_value' => 'nullable|numeric|min:0',
             'cooking_duration_unit' => 'nullable|string|max:50',
+            'categories' => 'nullable|array',
+            'categories.*' => 'nullable|string',
             'file_upload' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Gambar opsional saat update
         ]);
 
@@ -120,6 +131,7 @@ class RecipeController extends Controller
             'description' => $validatedData['description'] ?? '',
             'ingredients' => $validatedData['ingredients'],
             'directions' => $validatedData['direction'],
+            'categories' => $validatedData['categories'] ?? $recipe->categories,
         ];
 
         if (!empty($validatedData['cooking_duration_value']) && !empty($validatedData['cooking_duration_unit'])) {
@@ -137,13 +149,10 @@ class RecipeController extends Controller
             // Simpan gambar baru
             $recipeData['image_path'] = $request->file('file_upload')->store('recipes', 'public');
         }
-        // Jika tidak ada gambar baru diupload, image_path tidak diubah (mempertahankan gambar lama)
 
         $recipe->update($recipeData);
 
         return redirect()->route('my-recipes')->with('success', 'Recipe updated successfully!');
-        // Atau redirect ke halaman detail resep:
-        // return redirect()->route('recipes.show', $recipe)->with('success', 'Recipe updated successfully!');
     }
 
     /**
@@ -164,5 +173,51 @@ class RecipeController extends Controller
         $recipe->delete();
 
         return redirect()->route('my-recipes')->with('success', 'Recipe deleted successfully!');
+    }
+
+    public function like(Recipe $recipe): RedirectResponse
+    {
+        $user = Auth::user();
+        if (!$user->likedRecipes()->where('recipe_id', $recipe->id)->exists()) {
+            $user->likedRecipes()->attach($recipe->id);
+            return back()->with('success', 'Recipe liked!');
+        }
+        return back()->with('info', 'You already liked this recipe.');
+    }
+
+    public function unlike(Recipe $recipe): RedirectResponse
+    {
+        $user = Auth::user();
+        $user->likedRecipes()->detach($recipe->id);
+        return back()->with('success', 'Recipe unliked!');
+    }
+
+    public function save(Recipe $recipe): RedirectResponse
+    {
+        $user = Auth::user();
+        if (!$user->savedRecipes()->where('recipe_id', $recipe->id)->exists()) {
+            $user->savedRecipes()->attach($recipe->id);
+            return back()->with('success', 'Recipe saved!');
+        }
+        return back()->with('info', 'You already saved this recipe.');
+    }
+
+    public function unsave(Recipe $recipe): RedirectResponse
+    {
+        $user = Auth::user();
+        $user->savedRecipes()->detach($recipe->id);
+        return back()->with('success', 'Recipe unsaved!');
+    }
+
+    public function likedRecipes(): View
+    {
+        $recipes = Auth::user()->likedRecipes()->with('user')->latest()->get(); //
+        return view('user.liked-recipes', ['recipes' => $recipes]);
+    }
+
+    public function savedRecipes(): View
+    {
+        $recipes = Auth::user()->savedRecipes()->with('user')->latest()->get(); //
+        return view('user.saved-recipes', ['recipes' => $recipes]);
     }
 }

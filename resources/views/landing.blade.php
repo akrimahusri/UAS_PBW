@@ -10,7 +10,6 @@
     </div>
     <div class="nav-links" style="display: flex; gap: 1.5rem;">
         <a href="dashboard" style="color: #023047; text-decoration: none; font-weight: 500;">Dashboard</a>
-        <a href="#" style="color: #023047; text-decoration: none; font-weight: 500;">About Us</a>
         @guest
             <a href="{{ route('login') }}" style="color: #16666B; text-decoration: none; font-weight: 500;">Login</a>
             

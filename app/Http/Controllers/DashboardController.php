@@ -10,13 +10,12 @@ class DashboardController extends Controller
 {
     public function index(): View
     {
-        // Ambil semua resep, diurutkan dari yang terbaru, DAN sertakan data user pembuatnya
+        // Ambil semua resep, diurutkan dari yang terbaru, dan sertakan data user pembuatnya
         $recipes = Recipe::with('user') 
+                         ->withCount(['likedByUsers', 'savedByUsers'])
                          ->latest()
                          ->get();
 
-        // Alternatif jika paginasi
-        // $recipes = Recipe::with('user')->latest()->paginate(9);
 
         return view('dashboard', [
             'recipes' => $recipes
