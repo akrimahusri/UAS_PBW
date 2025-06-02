@@ -147,7 +147,6 @@
         const ingredientsContainer = document.getElementById('ingredients_container');
         const addIngredientButton = document.getElementById('add_ingredient_button');
 
-        // Fungsi untuk menambah field ingredient baru
         function addIngredientField(value = '') {
             const newIngredientEntry = document.createElement('div');
             newIngredientEntry.classList.add('ingredient-entry', 'flex', 'items-center', 'space-x-2', 'mb-2');
@@ -167,7 +166,7 @@
 
         if (addIngredientButton) {
             addIngredientButton.addEventListener('click', function () {
-                addIngredientField(); // Panggil fungsi untuk menambah field kosong
+                addIngredientField(); 
             });
         }
 
@@ -175,11 +174,11 @@
             ingredientsContainer.addEventListener('click', function (event) {
                 const removeButton = event.target.closest('.remove-ingredient-button');
                 if (removeButton) {
-                    // Jangan hapus jika ini adalah field ingredient terakhir di container
+                    
                     if (ingredientsContainer.querySelectorAll('.ingredient-entry').length > 1) {
                         removeButton.closest('.ingredient-entry').remove();
                     } else {
-                        // Jika ini adalah field terakhir, kosongkan saja nilainya
+                        
                         const inputField = removeButton.closest('.ingredient-entry').querySelector('input[name="ingredients[]"]');
                         if (inputField) {
                             inputField.value = '';
@@ -189,28 +188,23 @@
             });
         }
 
-        // Jika ada data lama (misalnya karena error validasi), render kembali field ingredients
         const oldIngredients = {!! json_encode(old('ingredients')) !!};
         if (oldIngredients && oldIngredients.length > 0) {
-            // Hapus field awal yang mungkin sudah ada dari HTML statis jika Anda hanya ingin render dari old()
-            // atau, jika field pertama sudah di-render, mulai loop dari oldIngredients[1]
-            // Untuk kesederhanaan, jika ada oldIngredients, kita hapus dulu yang statis (jika hanya satu)
-            // dan render semua dari old.
             
             const firstStaticEntry = ingredientsContainer.querySelector('.ingredient-entry');
             let hasRenderedFirstOld = false;
 
             oldIngredients.forEach((ingredientValue, index) => {
                 if (index === 0 && firstStaticEntry && firstStaticEntry.querySelector('input[name="ingredients[]"]')) {
-                    // Isi field statis pertama dengan nilai old pertama
+                    
                     firstStaticEntry.querySelector('input[name="ingredients[]"]').value = ingredientValue;
                     hasRenderedFirstOld = true;
                 } else {
-                    // Tambah field baru untuk sisa old ingredients
+               
                     addIngredientField(ingredientValue);
                 }
             });
-             // Jika oldIngredients kosong tapi field statis pertama ada, pastikan value nya kosong atau dari old() yang mungkin null
+
             if (!oldIngredients && firstStaticEntry && firstStaticEntry.querySelector('input[name="ingredients[]"]')) {
                  firstStaticEntry.querySelector('input[name="ingredients[]"]').value = {!! json_encode(old('ingredients.0')) !!} || '';
             }

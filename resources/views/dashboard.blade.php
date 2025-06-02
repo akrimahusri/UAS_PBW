@@ -1,7 +1,7 @@
-@extends('layouts.app') {{-- Menggunakan layout utama aplikasi --}}
+@extends('layouts.app')
 
 @section('content')
-<div class="py-8"> {{-- Padding atas dan bawah untuk seluruh konten dashboard --}}
+<div class="py-8"> 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
         {{-- Bagian "Discover Recipes" --}}
@@ -157,9 +157,9 @@
                         </a>
                     </div>
                     {{-- AKHIR KONTEN KARTU RESEP --}}
-                </div> {{-- Penutup untuk div kartu resep dengan x-data --}}
+                </div> 
                 @endforeach
-            </div> {{-- Penutup untuk div grid --}}
+            </div> 
             @else
                 {{-- Pesan jika tidak ada resep --}}
                 <div class="text-center py-10">
@@ -172,14 +172,14 @@
                     </p>
                 </div>
             @endif
-        </div> {{-- Penutup untuk div .mb-10 --}}
+        </div> 
 
     </div>
 </div>
 @endsection
 
 @push('styles')
-{{-- CSS kustom yang sudah Anda definisikan sebelumnya --}}
+
 <style>
     .font-poppins {
         font-family: 'Poppins', sans-serif;

@@ -16,16 +16,12 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            // Memastikan kombinasi user_id dan recipe_id unik (satu like per user per resep)
             $table->unique(['user_id', 'recipe_id']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        //
+        
     }
 };

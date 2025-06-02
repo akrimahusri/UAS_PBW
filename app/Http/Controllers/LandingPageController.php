@@ -9,7 +9,7 @@ class LandingPageController extends Controller
     /**
      * Display the landing page.
      */
-    public function index(): View // Sekarang 'View' akan merujuk ke 'Illuminate\View\View'
+    public function index(): View 
     {
         return view('landing');
     }

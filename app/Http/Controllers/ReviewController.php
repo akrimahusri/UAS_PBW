@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View; // Tambahkan ini
+use Illuminate\View\View; 
 
 class ReviewController extends Controller
 {
@@ -29,8 +29,6 @@ class ReviewController extends Controller
                                 ->where('user_id', Auth::id())
                                 ->first();
         if ($existingReview) {
-            // Jika ingin user bisa update reviewnya, arahkan ke edit atau beri pesan berbeda
-            // Untuk sekarang, kita anggap hanya bisa review sekali.
             return back()->with('error', 'You have already reviewed this recipe.');
         }
 
@@ -78,7 +76,7 @@ class ReviewController extends Controller
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
             'review_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'remove_review_image' => 'nullable|boolean', // Checkbox untuk hapus gambar
+            'remove_review_image' => 'nullable|boolean', 
         ]);
 
         $reviewData = [
@@ -86,15 +84,13 @@ class ReviewController extends Controller
             'comment' => $request->comment,
         ];
 
-        // Handle penghapusan gambar jika dicentang
         if ($request->boolean('remove_review_image') && $review->image_path) {
             Storage::disk('public')->delete($review->image_path);
             $reviewData['image_path'] = null;
         }
 
-        // Handle upload gambar baru jika ada (dan tidak dicentang hapus)
         if ($request->hasFile('review_image') && $request->file('review_image')->isValid() && !$request->boolean('remove_review_image')) {
-            // Hapus gambar lama jika ada
+            
             if ($review->image_path) {
                 Storage::disk('public')->delete($review->image_path);
             }

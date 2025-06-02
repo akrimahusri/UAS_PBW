@@ -27,7 +27,7 @@
         @endguest
     </div>
 </nav>
-{{-- END: Custom Navigation Bar --}}
+
 
 
 {{-- Hero Section --}}

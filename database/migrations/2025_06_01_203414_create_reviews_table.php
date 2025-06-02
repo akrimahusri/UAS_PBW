@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // User yang memberi review
             $table->unsignedTinyInteger('rating'); // 1-5
             $table->text('comment')->nullable();
-            $table->string('image_path')->nullable(); // Foto untuk review (opsional)
+            $table->string('image_path')->nullable(); 
             $table->timestamps();
 
             $table->unique(['recipe_id', 'user_id']); // Opsional: User hanya bisa review 1x per resep

@@ -61,7 +61,7 @@
                         <h3 class="text-xl font-bold text-slate-700 mb-1 truncate" title="{{ $recipe->title }}">
                             {{ $recipe->title }}
                         </h3>
-                        {{-- Bungkus paragraf deskripsi dengan div yang memiliki tinggi tetap --}}
+                        
                         <div class="h-16 overflow-hidden">
                             <p class="text-slate-600 text-sm leading-relaxed">
                                 {{ Str::limit($recipe->description ?? 'No description available.', 100) }} {{-- Meningkatkan limit sedikit jika h-16 memungkinkan --}}

@@ -70,15 +70,13 @@
 {{-- Style untuk bintang bisa diletakkan di app.css atau di push seperti ini --}}
 @push('styles')
 <style>
-    /* ID unik untuk kontainer bintang di halaman edit agar tidak konflik jika ada di layout lain */
+    
     #star-rating-edit {
-        /* display: flex; (sudah ada di class Tailwind) */
-        /* flex-direction: row-reverse; (sudah ada di class Tailwind) */
-        /* justify-content: flex-end; (sudah ada di class Tailwind) */
+        
     }
     #star-rating-edit label {
         cursor: pointer;
     }
-    /* Tailwind peer-checked dan peer-hover sudah cukup untuk menangani pewarnaan SVG */
+    
 </style>
 @endpush

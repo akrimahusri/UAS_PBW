@@ -264,19 +264,15 @@
 </div> 
 @endsection 
 
-{{-- @push('styles') harus berada di dalam @section atau di luar jika layoutmu mendukungnya secara global --}}
-{{-- Jika ingin style ini spesifik halaman, letakkan di dalam @section('styles') jika layoutmu punya section itu --}}
-{{-- Atau, jika layoutmu hanya punya @stack('styles'), maka ini sudah benar --}}
+
 @push('styles')
 <style>
-    #star-rating { /* Pastikan ID ini unik jika ada beberapa form rating di halaman lain */
-        /* display: flex; sudah ada di class */
-        /* flex-direction: row-reverse; sudah ada di class */
-        /* justify-content: flex-end; sudah ada di class */
+    #star-rating {
+        
     }
-    #star-rating label { /* Pastikan ID ini unik jika ada beberapa form rating di halaman lain */
+    #star-rating label { 
         cursor: pointer;
     }
-    /* Tailwind peer-checked dan peer-hover sudah menangani pewarnaan SVG */
+    
 </style>
 @endpush

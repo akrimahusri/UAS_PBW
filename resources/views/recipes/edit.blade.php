@@ -6,7 +6,7 @@
 
     <form action="{{ route('recipes.update', $recipe) }}" method="POST" enctype="multipart/form-data" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
         @csrf
-        @method('PUT') {{-- Penting untuk method update --}}
+        @method('PUT') 
 
         <div class="mb-4">
             <label for="recipe_title" class="block text-gray-700 text-sm font-bold mb-2">Recipe Title:</label>
@@ -20,7 +20,7 @@
             @error('description') <p class="text-red-500 text-xs italic">{{ $message }}</p> @enderror
         </div>
 
-        {{-- Field untuk Ingredients (contoh jika ingredients disimpan sebagai array JSON) --}}
+        {{-- Field untuk Ingredients  --}}
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2">Ingredients (one per line):</label>
             <textarea name="ingredients_text" id="ingredients_text" rows="5" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Flour&#10;Sugar&#10;Eggs">{{ old('ingredients_text', implode("\n", is_array($recipe->ingredients) ? $recipe->ingredients : (json_decode($recipe->ingredients, true) ?? []) )) }}</textarea>
@@ -31,8 +31,6 @@
             @error('ingredients') <p class="text-red-500 text-xs italic">{{ $message }}</p> @enderror
              @error('ingredients.*') <p class="text-red-500 text-xs italic">{{ $message }}</p> @enderror
         </div>
-        {{-- Jika ingin input dinamis untuk ingredients, perlu JavaScript --}}
-
 
         <div class="mb-4">
             <label for="direction" class="block text-gray-700 text-sm font-bold mb-2">Directions:</label>
@@ -40,7 +38,7 @@
             @error('direction') <p class="text-red-500 text-xs italic">{{ $message }}</p> @enderror
         </div>
 
-        {{-- Cooking Duration (Contoh jika dipisah value dan unit) --}}
+        {{-- Cooking Duration --}}
         @php
             $durationParts = $recipe->cooking_duration ? explode(' ', $recipe->cooking_duration, 2) : [null, null];
             $durationValue = old('cooking_duration_value', $durationParts[0]);
@@ -83,18 +81,17 @@
     </form>
 </div>
 <script>
-// Script sederhana untuk handle ingredients textarea di form edit
+
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form'); // Sesuaikan selector jika perlu
+    const form = document.querySelector('form'); 
     const ingredientsTextarea = document.getElementById('ingredients_text');
 
     if (form && ingredientsTextarea) {
         form.addEventListener('submit', function() {
-            // Hapus dulu input hidden ingredients yang lama jika ada
+            
             const existingHiddenIngredients = form.querySelectorAll('input[name^="ingredients["]');
             existingHiddenIngredients.forEach(input => input.remove());
 
-            // Buat input hidden baru dari textarea
             const lines = ingredientsTextarea.value.split('\n').filter(line => line.trim() !== '');
             lines.forEach((line, index) => {
                 const hiddenInput = document.createElement('input');
